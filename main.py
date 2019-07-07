@@ -2,6 +2,7 @@ import requests
 import re
 import imdb
 from bs4 import BeautifulSoup
+from collections import OrderedDict
 
 
 def remove_suffixes(titles):
@@ -29,22 +30,23 @@ def get_ratings(titles):
             rating = more_info['rating']
             ratings[t] = rating
         except KeyError:
-            ratings[t] = 'N/A'
+            ratings[t] = -1  # if movie has no user rating yet
 
     return ratings
 
 
 def main():
-    url = 'http://cinemas.nos.pt/pages/cartaz.aspx'
-    r = requests.get(url)
+    r = requests.get('http://cinemas.nos.pt/pages/cartaz.aspx')
 
     soup = BeautifulSoup(r.content, 'lxml')
 
     titles = soup.findAll('a', {'class': 'list-item', 'href': re.compile('.*Filmes.*')})
     titles = [t.contents.pop() for t in titles]
-
     titles = remove_suffixes(titles)
+
     ratings = get_ratings(titles)
+    ratings = OrderedDict(sorted(ratings.items(), key=lambda x: x[1], reverse=True))  # order dict by rating
+    ratings = {k: 'N/A' if v == -1 else v for k, v in ratings.items()}  # use 'N/A' instead of -1 if no rating available
 
     for movie, rating in ratings.items():
         print(movie, '-->', rating)
