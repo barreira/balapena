@@ -1,4 +1,4 @@
-# Vale a pena ir ao cinema?
+# Balapena: Vale a pena ir ao cinema?
 
 Este programa faz scraping dos filmes disponíveis em http://cinemas.nos.pt/pages/cartaz.aspx e, através da biblioteca IMDbPY, imprime para o terminal os seus user ratings.
 
