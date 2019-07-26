@@ -6,12 +6,17 @@ from collections import OrderedDict
 
 
 def remove_suffixes(titles):
-    suffixes = ['imax', 'atmos', '4dx', '3d', '(leg)', '(dob)']
+    suffixes = ['imax', 'atmos', '4dx', '3d', '(leg)', '(dob)', 'extended']
     res = []
 
     for t in titles:
         parts = t.split()
         parts = [p for p in parts if p.lower() not in suffixes]
+
+        # Takes care of the trailing '-' in e.g. "Vingadores: Endgame - Extended"
+        if parts[-1] == '-':
+            parts = parts[:-1]
+
         res.append(' '.join(parts))
 
     return list(set(res))
@@ -23,6 +28,11 @@ def get_ratings(titles):
 
     for t in titles:
         info = ia.search_movie(t)
+
+        if not info:
+            ratings[t] = -1  # movie has not been found
+            break
+
         id = info[0].getID()
         more_info = ia.get_movie(id)
 
@@ -30,7 +40,7 @@ def get_ratings(titles):
             rating = more_info['rating']
             ratings[t] = rating
         except KeyError:
-            ratings[t] = -1  # if movie has no user rating yet
+            ratings[t] = -2  # movie has no user rating yet
 
     return ratings
 
@@ -46,7 +56,8 @@ def main():
 
     ratings = get_ratings(titles)
     ratings = OrderedDict(sorted(ratings.items(), key=lambda x: x[1], reverse=True))  # order dict by rating
-    ratings = {k: 'N/A' if v == -1 else v for k, v in ratings.items()}  # use 'N/A' instead of -1 if no rating available
+    ratings = {k: 'N/A (movie has not been found)' if v == -1 else v for k, v in ratings.items()}  # not found message
+    ratings = {k: 'N/A (movie has no rating yet)' if v == -2 else v for k, v in ratings.items()}  # not rated message
 
     for movie, rating in ratings.items():
         print(movie, '-->', rating)
