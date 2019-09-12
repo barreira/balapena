@@ -31,7 +31,7 @@ def get_ratings(titles):
 
         if not info:
             ratings[t] = -1  # movie has not been found
-            break
+            continue
 
         id = info[0].getID()
         more_info = ia.get_movie(id)
