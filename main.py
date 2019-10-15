@@ -25,9 +25,8 @@ def generate_suffixes_variations():
 
 
 def remove_suffixes(titles):
+    titles_without_suffixes = []
     suffixes = generate_suffixes_variations()
-
-    res = []
 
     for t in titles:
         parts = t.split()
@@ -37,9 +36,9 @@ def remove_suffixes(titles):
         if parts[-1] == '-':
             parts = parts[:-1]
 
-        res.append(' '.join(parts))
+        titles_without_suffixes.append(' '.join(parts))
 
-    return list(set(res))
+    return list(set(titles_without_suffixes))
 
 
 def get_ratings(titles):
