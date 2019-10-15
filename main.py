@@ -4,10 +4,29 @@ import imdb
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
+DEFAULT_SUFFIXES = ['leg', 'dob', 'extended', 'imax', 'atmos', '3d', '4dx', 'hfr']
+
+
+def generate_suffixes_variations():
+    suffixes_long = DEFAULT_SUFFIXES.copy()
+
+    with_dot = [s + '.' for s in suffixes_long]
+    suffixes_long.extend(with_dot)
+
+    with_surrounding_parenthesis = ['(' + s + ')' for s in suffixes_long]
+    with_trailing_parenthesis = [s + ')' for s in suffixes_long]
+    with_leading_parenthesis = ['(' + s for s in suffixes_long]
+
+    suffixes_long.extend(with_surrounding_parenthesis)
+    suffixes_long.extend(with_trailing_parenthesis)
+    suffixes_long.extend(with_leading_parenthesis)
+
+    return suffixes_long
+
 
 def remove_suffixes(titles):
-    suffixes = ['imax', '(imax)', 'atmos', '4dx', '(4dx)', '3d', '(leg)', '(leg.)', '(dob)', '(dob.)', '(atmos dob)', '(atmos leg)', '(3d leg)', '(4dx leg)', '(3d hfr)', 'extended']
-    res = []
+    titles_without_suffixes = []
+    suffixes = generate_suffixes_variations()
 
     for t in titles:
         parts = t.split()
@@ -17,9 +36,9 @@ def remove_suffixes(titles):
         if parts[-1] == '-':
             parts = parts[:-1]
 
-        res.append(' '.join(parts))
+        titles_without_suffixes.append(' '.join(parts))
 
-    return list(set(res))
+    return list(set(titles_without_suffixes))
 
 
 def get_ratings(titles):
