@@ -6,7 +6,7 @@ from collections import OrderedDict
 
 
 def remove_suffixes(titles):
-    suffixes = ['imax', 'atmos', '4dx', '3d', '(leg)', '(leg.)', '(dob)', '(dob.)', 'extended']
+    suffixes = ['imax', '(imax)', 'atmos', '4dx', '(4dx)', '3d', '(leg)', '(leg.)', '(dob)', '(dob.)', '(atmos dob)', '(atmos leg)', '(3d leg)', '(4dx leg)', '(3d hfr)', 'extended']
     res = []
 
     for t in titles:
