@@ -16,6 +16,6 @@ Serve para evitar ter de fazer o processo manual e entediante de copy paste dos 
 &nbsp;
 
 <p align="center">
-  <img src="v1_0.png" alt="Results (v1.0)" width="400"/>
+  <img src="v1_1.png" alt="Results (v1.0)" width="400"/>
   <label align="center">(v1.0)</label>
 </p>
