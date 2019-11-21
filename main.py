@@ -4,7 +4,7 @@ import imdb
 from bs4 import BeautifulSoup
 from collections import OrderedDict
 
-DEFAULT_SUFFIXES = ['leg', 'dob', 'extended', 'imax', 'atmos', '3d', '4dx', 'hfr']
+DEFAULT_SUFFIXES = ['leg', 'dob', 'extended', 'imax', 'atmos', '3d', '4dx', 'hfr', 'vp']
 
 
 def generate_suffixes_variations():
