@@ -75,8 +75,8 @@ def main():
 
     ratings = get_ratings(titles)
     ratings = OrderedDict(sorted(ratings.items(), key=lambda x: x[1], reverse=True))  # order dict by rating
-    ratings = {k: 'N/A (movie has not been found)' if v == -1 else v for k, v in ratings.items()}  # not found message
-    ratings = {k: 'N/A (movie has no rating yet)' if v == -2 else v for k, v in ratings.items()}  # not rated message
+    ratings = {m: 'N/A (movie has not been found)' if r == -1 else r for m, r in ratings.items()}  # not found message
+    ratings = {m: 'N/A (movie has no rating yet)' if r == -2 else r for m, r in ratings.items()}  # not rated message
 
     for movie, rating in ratings.items():
         print(movie, '-->', rating)
